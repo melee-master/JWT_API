@@ -2,7 +2,7 @@ const router = require("express").Router()
 const { check, validationResult } = require("express-validator");
 const {users} = require('../db.js');
 const bcrypt = require('bcrypt')
-
+const jwt = require("jsonwebtoken")
 router.post('/signup',[
     check("email", "Enter a valid email id")
         .isEmail(),
@@ -31,9 +31,19 @@ router.post('/signup',[
         email, 
         password: hashedPassword
     })
+    const token = await jwt.sign({
+        email
+    }, 'lsdewlkfjweifhweif213123', {
+        expiresIn: 360000
+    })
 
-    res.send("validation passed");
+    res.json({token})
 })
+
+
+
+
+
 router.get('/all', (req, res)=> {
     res.json(users);
 })
