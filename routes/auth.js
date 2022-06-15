@@ -27,13 +27,15 @@ router.post('/signup',[
     }
     let hashedPassword = await bcrypt.hash(password, 10);
     console.log(hashedPassword)
-
+    users.push({
+        email, 
+        password: hashedPassword
+    })
 
     res.send("validation passed");
-
-
-
-
+})
+router.get('/all', (req, res)=> {
+    res.json(users);
 })
 
 module.exports = router
