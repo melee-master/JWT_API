@@ -40,7 +40,29 @@ router.post('/signup',[
     res.json({token})
 })
 
+router.post('/login', async (req, res)=> {
+    const {email, password} = req.body;
+    let user  =  users.find((user)=> {
+        return user. email === email;
+    });
+    if(!user){
+        return req.status(404).json({"msg": "invalid credentials"})
+    };
+    let isMatch = await bcrypt.compare(password, user.password);
 
+    if(!isMatch){
+        return req.status(404).json({"msg": "invalid credentials"})
+    };
+    const token = await jwt.sign({
+        email
+    }, 'lsdewlkfjweifhweif213123', {
+        expiresIn: 360000
+    })
+
+    res.json({token})
+
+
+})
 
 
 
