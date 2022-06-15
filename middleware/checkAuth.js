@@ -8,7 +8,8 @@ module.exports= async(req, res, next) => {
     }
     try{
         let user = await JWT.verify(token, 'lsdewlkfjweifhweif213123') 
-        
+        req.user = user.email;
+        next();
     }catch(err){
         return res.status(500).json({
             "msg": "token invalid"
